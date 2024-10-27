@@ -24,6 +24,18 @@
         @if (Auth::check())
             <div class="d-flex flex-column flex-shrink-0 p-3 bg-white border-end vh-100" style="width: 250px;">
                 <ul class="nav nav-pills flex-column mb-auto">
+
+                    <!-- Perfil -->
+                    <li class="nav-item mb-3 text-center">
+                        <div class="d-flex justify-content-center mb-2">
+                            <!-- Imagem de perfil redonda -->
+                            <img src="https://picsum.photos/200/300" alt="perfil" class="rounded-circle"
+                                style="width: 80px; height: 80px; object-fit: cover;">
+                        </div>
+                        <!-- Nome do usuário -->
+                        <h3 class="text-center fs-5">Olá, {{ Auth::user()->name }}</h3>
+                    </li>
+                    <hr>
                     <!-- Dashboard -->
                     <li class="nav-item mb-2">
                         <a href="#" class="nav-link text-dark d-flex align-items-center">
@@ -50,11 +62,15 @@
                     </li>
                     <!-- Logout -->
                     <li class="nav-item mb-2">
-                        <a class="nav-link text-dark d-flex align-items-center" href="{{ route('logout') }}" onclick="event.preventDefault();
-                                                                     document.getElementById('logout-form').submit();">
-                            <i class="bi bi-gear me-2"></i>
+                        <a class="nav-link d-flex align-items-center text-danger fw-semibold px-3 py-2 rounded"
+                            href="{{ route('logout') }}"
+                            onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                            <!-- Ícone de logout -->
+                            <i class="bi bi-box-arrow-left me-2"></i>
+                            <!-- Texto de logout -->
                             {{ __('Sair') }}
                         </a>
+                        <!-- Formulário de logout escondido -->
                         <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
                             @csrf
                         </form>
@@ -67,7 +83,7 @@
             </div>
         @endif
 
-        <main class="container-fluid p-4">
+        <main class="container-fluid p-4 justify-content-center align-items-center">
             @yield('content')
         </main>
     </div>
