@@ -38,13 +38,13 @@
                     <hr>
                     <!-- Dashboard -->
                     <li class="nav-item mb-2">
-                        <a href="#" class="nav-link text-dark d-flex align-items-center">
+                        <a href="{{route("home")}}" class="nav-link text-dark d-flex align-items-center">
                             <i class="bi bi-speedometer2 me-2"></i> Dashboard
                         </a>
                     </li>
                     <!-- Transações -->
                     <li class="nav-item mb-2">
-                        <a href="#" class="nav-link text-dark d-flex align-items-center">
+                        <a href="{{route("transacao-index")}}" class="nav-link text-dark d-flex align-items-center">
                             <i class="bi bi-card-list me-2"></i> Transações
                         </a>
                     </li>
