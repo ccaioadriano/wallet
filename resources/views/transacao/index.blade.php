@@ -40,42 +40,40 @@
     </div>
 
     <!-- Tabela de transações -->
-    <table class="table table-striped">
-        <thead>
-            <tr>
-                <th>Data</th>
-                <th>Descrição</th>
-                <th>Categoria</th>
-                <th>Tipo</th>
-                <th>Valor</th>
-                <th>Ações</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td>2024-10-01</td>
-                <td>Compra supermercado</td>
-                <td>Alimentação</td>
-                <td class="text-danger">Despesa</td>
-                <td>R$ -250,00</td>
-                <td>
-                    <button class="btn btn-sm btn-warning me-2"><i class="bi bi-pencil-square"></i></button>
-                    <button class="btn btn-sm btn-danger"><i class="bi bi-trash"></i></button>
-                </td>
-            </tr>
-            <tr>
-                <td>2024-10-03</td>
-                <td>Salário</td>
-                <td>Renda</td>
-                <td class="text-success">Receita</td>
-                <td>R$ 3000,00</td>
-                <td>
-                    <button class="btn btn-sm btn-warning me-2"><i class="bi bi-pencil-square"></i></button>
-                    <button class="btn btn-sm btn-danger"><i class="bi bi-trash"></i></button>
-                </td>
-            </tr>
-        </tbody>
-    </table>
+    @if (isset($transacoes) && count($transacoes) > 0)
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Data</th>
+                    <th>Descrição</th>
+                    <th>Categoria</th>
+                    <th>Tipo</th>
+                    <th>Valor</th>
+                    <th>Ações</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach ($transacoes as $transacao)
+                        <tr>
+                            <td>{{$transacao->getDataFormatada()}}</td>
+                            <td>{{$transacao->descricao}}</td>
+                            <td>{{$transacao->categoria}}</td>
+                            <td @class([
+                        'text-danger' => $transacao->tipo === 'despesa',
+                        'text-success' => $transacao->tipo === 'receita'
+                    ])>{{$transacao->tipo}}</td>
+                            <td>{{$transacao->getValorFormatado()}}</td>
+                            <td>
+                                <button class="btn btn-sm btn-warning me-2"><i class="bi bi-pencil-square"></i></button>
+                                <button class="btn btn-sm btn-danger"><i class="bi bi-trash"></i></button>
+                            </td>
+                        </tr>
+                @endforeach
+            </tbody>
+        </table>
+    @else
+        <p>Nenhuma transação cadastrada.</p>
+    @endif
 </div>
 
 <!-- Modal de Nova Transação -->
@@ -88,19 +86,20 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
             </div>
             <div class="modal-body">
-                <form>
+                <form action="{{route("transacao-store")}}" method="POST">
+                    @csrf
                     <div class="mb-3">
                         <label for="date" class="form-label">Data</label>
-                        <input type="date" class="form-control" id="date" required>
+                        <input type="date" class="form-control" id="date" name="data" required>
                     </div>
                     <div class="mb-3">
                         <label for="description" class="form-label">Descrição</label>
-                        <input type="text" class="form-control" id="description" placeholder="Descrição da transação"
-                            required>
+                        <input type="text" class="form-control" name="descricao" id="description"
+                            placeholder="Descrição da transação" required>
                     </div>
                     <div class="mb-3">
                         <label for="category" class="form-label">Categoria</label>
-                        <select id="category" class="form-select" required>
+                        <select id="category" class="form-select" name="categoria" required>
                             <option value="">Selecione...</option>
                             <option value="alimentacao">Alimentação</option>
                             <option value="transporte">Transporte</option>
@@ -109,14 +108,15 @@
                     </div>
                     <div class="mb-3">
                         <label for="type" class="form-label">Tipo</label>
-                        <select id="type" class="form-select" required>
+                        <select id="type" class="form-select" name="tipo" required>
                             <option value="receita">Receita</option>
                             <option value="despesa">Despesa</option>
                         </select>
                     </div>
                     <div class="mb-3">
                         <label for="amount" class="form-label">Valor</label>
-                        <input type="number" class="form-control" id="amount" placeholder="Valor da transação" required>
+                        <input type="number" class="form-control" name="valor" id="amount"
+                            placeholder="Valor da transação" required>
                     </div>
                     <button type="submit" class="btn btn-primary w-100">Adicionar</button>
                 </form>
