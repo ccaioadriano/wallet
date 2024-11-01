@@ -57,6 +57,7 @@ class User extends Authenticatable
         $totalDespesas = $this->transacoes()->where("tipo", "despesa")->sum("valor");
         $totalReceita = $this->transacoes()->where("tipo", "receita")->sum("valor");
         $this->saldo = $totalReceita - $totalDespesas;
+        $this->save();
         return $this->saldo;
     }
 
@@ -67,9 +68,20 @@ class User extends Authenticatable
 
     public function addSaldo($valor) {
         $this->increment('saldo', $valor);
+        $this->save();
+
     }
 
     public function decrementaSaldo($valor) {
         $this->decrement('saldo', $valor);
+        $this->save();
+    }
+
+    public function getTotalDespesa(){
+        return 'R$ ' . number_format($this->transacoes()->where("tipo", "despesa")->sum('valor'), 2, ',', '.');
+    }
+
+    public function getTotalReceita(){
+        return 'R$ ' . number_format($this->transacoes()->where("tipo", "receita")->sum('valor'), 2, ',', '.');
     }
 }

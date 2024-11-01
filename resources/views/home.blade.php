@@ -14,7 +14,10 @@
                             <div class="card text-center shadow-sm">
                                 <div class="card-body">
                                     <h5 class="card-title text-muted">Saldo Total</h5>
-                                    <h3 class="card-text text-success">{{Auth::user()->getSaldoFormatado()}}</h3>
+                                    <h3 @class([
+    'text-danger' => Auth::user()->getSaldo() < 0,
+    'text-success' => Auth::user()->getSaldo() > 0
+])>{{Auth::user()->getSaldoFormatado()}}</h3>
                                 </div>
                             </div>
                         </div>
@@ -25,7 +28,7 @@
                             <div class="card shadow-sm">
                                 <div class="card-body text-center">
                                     <h6 class="card-title text-muted">Despesas</h6>
-                                    <h4 class="text-danger">R$ 3,200.00</h4>
+                                    <h4 class="text-danger">{{Auth::user()->getTotalDespesa()}}</h4>
                                 </div>
                             </div>
                         </div>
@@ -33,7 +36,7 @@
                             <div class="card shadow-sm">
                                 <div class="card-body text-center">
                                     <h6 class="card-title text-muted">Ganhos</h6>
-                                    <h4 class="text-success">R$ 8,200.00</h4>
+                                    <h4 class="text-success">{{Auth::user()->getTotalReceita()}}</h4>
                                 </div>
                             </div>
                         </div>
