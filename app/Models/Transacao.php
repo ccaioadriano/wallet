@@ -7,6 +7,10 @@ use Illuminate\Database\Eloquent\Model;
 
 class Transacao extends Model
 {
+
+    const DESPESA = 'despesa';
+    const RECEITA = 'receita';
+    
     protected $table = "transacoes";
 
     protected $fillable = [

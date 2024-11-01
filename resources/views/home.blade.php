@@ -14,7 +14,7 @@
                             <div class="card text-center shadow-sm">
                                 <div class="card-body">
                                     <h5 class="card-title text-muted">Saldo Total</h5>
-                                    <h3 class="card-text text-success">R$ 5,000.00</h3>
+                                    <h3 class="card-text text-success">{{Auth::user()->getSaldoFormatado()}}</h3>
                                 </div>
                             </div>
                         </div>

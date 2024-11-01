@@ -21,6 +21,7 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'saldo',
     ];
 
     /**
@@ -51,4 +52,24 @@ class User extends Authenticatable
         return $this->hasMany(Transacao::class);
     }
 
+    public function getSaldo()
+    {
+        $totalDespesas = $this->transacoes()->where("tipo", "despesa")->sum("valor");
+        $totalReceita = $this->transacoes()->where("tipo", "receita")->sum("valor");
+        $this->saldo = $totalReceita - $totalDespesas;
+        return $this->saldo;
+    }
+
+    public function getSaldoFormatado()
+    {
+        return 'R$ ' . number_format($this->getSaldo(), 2, ',', '.');
+    }
+
+    public function addSaldo($valor) {
+        $this->increment('saldo', $valor);
+    }
+
+    public function decrementaSaldo($valor) {
+        $this->decrement('saldo', $valor);
+    }
 }
