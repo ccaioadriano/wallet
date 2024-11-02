@@ -20,17 +20,22 @@ class ConfiguracaoController extends Controller
         $categoria = $request->categoriaNome;
         $user = Auth::user();
 
-        // Obtenha as categorias atuais ou inicialize um array vazio se estiver nulo
         $categorias = $user->categorias ?? [];
 
-        // Adicione a nova categoria ao array de categorias
+        //add uma nova categoria na lista do usuario
         $categorias[] = ['nome' => $categoria];
 
-        // Atualize o campo 'categorias' no usuário e salve
+       // atualiza a lista do usuario com a nova lista
         $user->categorias = $categorias;
 
-        //TODO: Sempre antes de salvar é necessário testar para verificar se o usuario já possui o limite de categorias cadastrado
+        //verifica se o usuario atingiu o limite de categorias
+        if(count($user->categorias) >= 10) {
+            return redirect()->route('configuracao-index')->with('erro', 'Você atingiu o limite de categorias.');
+        }
+
         $user->save();
+
+        return redirect()->route('configuracao-index')->with('success', 'Categoria cadastrada com sucesso.');
     }
 
 

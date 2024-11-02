@@ -15,8 +15,11 @@ class TransacaoController extends Controller
 
     public function index()
     {
-        $transacoes = Auth::user()->transacoes()->get();
-        return view(view: "transacao.index", data: compact(var_name: "transacoes"));
+        $user = Auth::user();
+        $transacoes = $user->transacoes()->orderBy(column: 'data', direction: 'asc')->get();
+        $categorias = $user->categorias;
+        
+        return view(view: "transacao.index", data: compact(var_name: ["transacoes","categorias"]));
     }
 
     public function store(Request $request)

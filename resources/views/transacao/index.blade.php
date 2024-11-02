@@ -101,9 +101,9 @@
                         <label for="category" class="form-label">Categoria</label>
                         <select id="category" class="form-select" name="categoria" required>
                             <option value="">Selecione...</option>
-                            <option value="alimentacao">Alimentação</option>
-                            <option value="transporte">Transporte</option>
-                            <option value="lazer">Lazer</option>
+                            @foreach ($categorias as $categoria)
+                                <option value="{{$categoria['nome']}}">{{$categoria['nome']}}</option>
+                            @endforeach
                         </select>
                     </div>
                     <div class="mb-3">
@@ -115,7 +115,7 @@
                     </div>
                     <div class="mb-3">
                         <label for="amount" class="form-label">Valor</label>
-                        <input type="number" class="form-control" name="valor" id="amount"
+                        <input type="text" class="form-control" name="valor" id="amount"
                             placeholder="Valor da transação" required>
                     </div>
                     <button type="submit" class="btn btn-primary w-100">Adicionar</button>
