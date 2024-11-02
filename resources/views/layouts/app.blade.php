@@ -56,7 +56,7 @@
                     </li>
                     <!-- Configurações -->
                     <li class="nav-item mb-2">
-                        <a href="#" class="nav-link text-dark d-flex align-items-center">
+                        <a href="{{route('configuracao-index')}}" class="nav-link text-dark d-flex align-items-center">
                             <i class="bi bi-gear me-2"></i> Configurações
                         </a>
                     </li>
