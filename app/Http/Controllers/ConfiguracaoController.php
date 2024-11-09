@@ -18,12 +18,13 @@ class ConfiguracaoController extends Controller
     public function addCategoria(Request $request)
     {
         $categoria = $request->categoriaNome;
+        $color = $request->color;
         $user = Auth::user();
 
         $categorias = $user->categorias ?? [];
 
-        //add uma nova categoria na lista do usuario
-        $categorias[] = ['nome' => $categoria];
+        //add uma nova categoria na lista
+        $categorias[] = ['nome' => $categoria, 'color'=> $color];
 
        // atualiza a lista do usuario com a nova lista
         $user->categorias = $categorias;

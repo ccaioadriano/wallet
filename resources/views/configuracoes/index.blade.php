@@ -22,6 +22,11 @@
                             <input type="text" name="categoriaNome" id="categoriaNome" class="form-control" required>
                         </div>
 
+                        <div class="mb-3 w-25">
+                            <label for="color" class="form-label">Cor</label>
+                            <input type="color" name="color" id="color" class="form-control" value="#e66465">
+                        </div>
+
                         <button type="submit" class="btn btn-danger">Adicionar categoria</button>
                     </form>
                 </div>
