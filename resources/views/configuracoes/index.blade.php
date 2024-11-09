@@ -24,14 +24,28 @@
 
                         <div class="mb-3 w-25">
                             <label for="color" class="form-label">Cor</label>
-                            <input type="color" name="color" id="color" class="form-control" value="#e66465">
+                            <input type="color" name="color" id="color" class="form-control">
                         </div>
 
-                        <button type="submit" class="btn btn-danger">Adicionar categoria</button>
+                        <button type="submit" class="btn btn-primary float-end">Adicionar categoria</button>
                     </form>
                 </div>
             </div>
         </div>
     </div>
 </div>
+
+<script>
+    function randomColor() {
+        // Gera um número aleatório entre 0 e 16777215 (0xFFFFFF em hexadecimal)
+        const randomNum = Math.floor(Math.random() * 16777215);
+        
+        // Converte o número para hexadecimal e garante que tenha 6 dígitos
+        const hexColor = "#" + randomNum.toString(16).padStart(6, "0");
+        return hexColor;
+    }
+    $(document).ready(function () {
+        $("#color").val(randomColor())
+    })
+</script>
 @endsection
