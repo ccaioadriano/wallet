@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use Auth;
+use DB;
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
@@ -24,5 +26,16 @@ class HomeController extends Controller
     public function index()
     {
         return view('home');
+    }
+
+    public function recuperaInformacaoGrafico(Request $request)
+    {
+        $data = Auth::user()->transacoes()
+            ->select('categoria', DB::raw('SUM(valor) as total'))
+            ->where('tipo', 'despesa')
+            ->groupBy('categoria')
+            ->pluck('total','categoria');
+
+        return response($data);
     }
 }

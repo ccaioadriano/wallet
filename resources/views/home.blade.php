@@ -60,33 +60,48 @@
 <!-- Script do Gráfico -->
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
-    const ctx = document.getElementById('expenseChart').getContext('2d');
-    const expenseChart = new Chart(ctx, {
-        type: 'pie',
-        data: {
-            labels: ['Alimentação', 'Transporte', 'Lazer', 'Educação', 'Outros'],
-            datasets: [{
-                label: 'Despesas',
-                data: [25, 20, 15, 30, 10], // Dados de exemplo
-                backgroundColor: [
-                    '#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0', '#9966FF'
-                ],
-                hoverOffset: 4
-            }]
-        },
-        options: {
-            responsive: true,
-            plugins: {
-                legend: {
-                    position: 'bottom',
-                },
-                tooltip: {
-                    callbacks: {
-                        label: (tooltipItem) => `${tooltipItem.label}: R$ ${tooltipItem.raw}`
+    $(document).ready(function () {
+        $.ajax({
+            url: "{{ route('recupera-informacao-grafico') }}", // URL da rota
+            type: 'POST',
+            dataType: 'json',
+            headers: {
+                'X-CSRF-TOKEN': '{{ csrf_token() }}' // Token CSRF
+            },
+            success: function (response) {
+                const ctx = document.getElementById('expenseChart').getContext('2d');
+                const expenseChart = new Chart(ctx, {
+                    type: 'pie',
+                    data: {
+                        labels: Object.keys(response), // chaves retornadas do back
+                        datasets: [{
+                            label: 'Despesas',                                                                           
+                            data: Object.values(response),
+                            backgroundColor: [
+                                '#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0'
+                            ],
+                            hoverOffset: 4
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        plugins: {
+                            legend: {
+                                position: 'bottom',
+                            },
+                            tooltip: {
+                                callbacks: {
+                                    label: (tooltipItem) => `${tooltipItem.label}: R$ ${tooltipItem.raw}`
+                                }
+                            }
+                        }
                     }
-                }
+                });
+            },
+            error: function (xhr, status, error) {
+                console.error('Erro na requisição:', error);
             }
-        }
+        });
     });
 </script>
 @endsection

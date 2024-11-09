@@ -15,3 +15,5 @@ Route::post('/transacoes', [App\Http\Controllers\TransacaoController::class, 'st
 Route::get('/configuracoes', [App\Http\Controllers\ConfiguracaoController::class, 'index'])->name('configuracao-index');
 
 Route::post('/adicionar-categoria', [App\Http\Controllers\ConfiguracaoController::class, 'addCategoria'])->name('adiciona-categoria');
+
+Route::post("recupera-informacao-grafico", [App\Http\Controllers\HomeController::class, "recuperaInformacaoGrafico"])->name('recupera-informacao-grafico');
