@@ -17,7 +17,7 @@ class TransacaoController extends Controller
     {
         $user = Auth::user();
         $transacoes = $user->transacoes()->orderBy(column: 'data', direction: 'asc')->get();
-        $categorias = $user->categorias;
+        $categorias = $user->categorias ?? [];
         
         return view(view: "transacao.index", data: compact(var_name: ["transacoes","categorias"]));
     }
