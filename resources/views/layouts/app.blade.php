@@ -23,7 +23,7 @@
     <div id="app" class="d-flex">
         <!-- Menu Lateral -->
         @if (Auth::check())
-            <div class="d-flex flex-column flex-shrink-0 p-3 bg-white border-end vh-100" style="width: 250px;">
+            <div class="d-flex flex-column flex-shrink-0 p-3 bg-white border-end min-vh-100" style="width: 250px;">
                 <ul class="nav nav-pills flex-column mb-auto">
 
                     <!-- Perfil -->

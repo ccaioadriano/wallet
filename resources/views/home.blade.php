@@ -106,7 +106,6 @@
                         }
                     });
                 }
-
             },
             error: function (xhr, status, error) {
                 console.error('Erro na requisição:', error);
