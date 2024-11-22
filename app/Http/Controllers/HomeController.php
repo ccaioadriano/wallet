@@ -30,12 +30,26 @@ class HomeController extends Controller
 
     public function recuperaInformacaoGrafico(Request $request)
     {
-        $data = Auth::user()->transacoes()
-            ->select('categoria', DB::raw('SUM(valor) as total'))
-            ->where('tipo', 'despesa')
-            ->groupBy('categoria')
-            ->pluck('total','categoria');
 
-        return response($data);
+        $categoriasUsuario = collect(Auth::user()->categorias);
+
+        //buscar transações
+        $transacoesUsuario = Auth::user()->transacoes()
+            ->select('categoria', DB::raw('SUM(valor) as total'))
+            ->where('tipo', '=', 'despesa')
+            ->groupBy('categoria')->get();
+
+        $data = $transacoesUsuario->mapWithKeys(function ($transacao) use ($categoriasUsuario) {
+            $categoriaInfo = $categoriasUsuario->firstWhere('nome', $transacao->categoria);
+            return [
+                $transacao->categoria => [
+                    'categoria' => $transacao->categoria,
+                    'total' => $transacao->total,
+                    'color' => $categoriaInfo['color']
+                ]
+            ];
+        });
+
+        return response()->json($data); // Retorna os dados como JSON
     }
 }

@@ -69,17 +69,20 @@
                 'X-CSRF-TOKEN': '{{ csrf_token() }}' // Token CSRF
             },
             success: function (response) {
+                
+                const labels = Object.keys(response); // Nomes das categorias
+                const data = labels.map(label => response[label].total); // Totais de cada categoria
+                const colors = labels.map(label => response[label].color); // Cores de cada categoria
+
                 const ctx = document.getElementById('expenseChart').getContext('2d');
                 const expenseChart = new Chart(ctx, {
                     type: 'pie',
                     data: {
-                        labels: Object.keys(response), // chaves retornadas do back
+                        labels: labels, // chaves retornadas do back
                         datasets: [{
-                            label: 'Despesas',                                                                           
-                            data: Object.values(response),
-                            backgroundColor: [
-                                '#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0'
-                            ],
+                            label: 'Despesas',
+                            data: data,
+                            backgroundColor: colors,
                             hoverOffset: 4
                         }]
                     },
