@@ -41,16 +41,18 @@
                             </div>
                         </div>
                     </div>
-                    <div class="row justify-content-center">
-                        <div class="col-md-6">
-                            <div class="card shadow-sm">
-                                <div class="card-body">
-                                    <h6 class="card-title text-muted text-center">Distribuição de Despesas</h6>
-                                    <canvas id="expenseChart" width="400" height="400"></canvas>
+                    @if (Auth::user()->transacoes()->where("tipo", "despesa")->sum('valor') > 0)
+                        <div class="row justify-content-center">
+                            <div class="col-md-6">
+                                <div class="card shadow-sm">
+                                    <div class="card-body">
+                                        <h6 class="card-title text-muted text-center">Distribuição de Despesas</h6>
+                                        <canvas id="expenseChart" width="400" height="400"></canvas>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    @endif
                 </div>
             </div>
 
@@ -69,37 +71,42 @@
                 'X-CSRF-TOKEN': '{{ csrf_token() }}' // Token CSRF
             },
             success: function (response) {
-                
+
                 const labels = Object.keys(response); // Nomes das categorias
                 const data = labels.map(label => response[label].total); // Totais de cada categoria
                 const colors = labels.map(label => response[label].color); // Cores de cada categoria
 
-                const ctx = document.getElementById('expenseChart').getContext('2d');
-                const expenseChart = new Chart(ctx, {
-                    type: 'pie',
-                    data: {
-                        labels: labels, // chaves retornadas do back
-                        datasets: [{
-                            label: 'Despesas',
-                            data: data,
-                            backgroundColor: colors,
-                            hoverOffset: 4
-                        }]
-                    },
-                    options: {
-                        responsive: true,
-                        plugins: {
-                            legend: {
-                                position: 'bottom',
-                            },
-                            tooltip: {
-                                callbacks: {
-                                    label: (tooltipItem) => `${tooltipItem.label}: R$ ${tooltipItem.raw}`
+                const ctx = document.getElementById('expenseChart');
+
+                if (ctx) {
+                    ctx.getContext('2d');
+                    const expenseChart = new Chart(ctx, {
+                        type: 'pie',
+                        data: {
+                            labels: labels, // chaves retornadas do back
+                            datasets: [{
+                                label: 'Despesas',
+                                data: data,
+                                backgroundColor: colors,
+                                hoverOffset: 4
+                            }]
+                        },
+                        options: {
+                            responsive: true,
+                            plugins: {
+                                legend: {
+                                    position: 'bottom',
+                                },
+                                tooltip: {
+                                    callbacks: {
+                                        label: (tooltipItem) => `${tooltipItem.label}: R$ ${tooltipItem.raw}`
+                                    }
                                 }
                             }
                         }
-                    }
-                });
+                    });
+                }
+
             },
             error: function (xhr, status, error) {
                 console.error('Erro na requisição:', error);
