@@ -63,10 +63,26 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
+        // Verifica se o arquivo foi enviado no request
+        if (request()->hasFile('profile_image')) {
+            $file = request()->file('profile_image');
+
+            // Extrai o nome e a extensão do arquivo
+            $filenameWithExt = $file->getClientOriginalName();
+            $filename = pathinfo($filenameWithExt, PATHINFO_FILENAME);
+            $extension = $file->getClientOriginalExtension();
+
+            // Gera um nome único para o arquivo
+            $fileNameToStore = $filename . '_' . time() . '.' . $extension;
+
+            // Faz o upload para a pasta 'public/img_itens'
+            $file->storeAs('profile_images', $fileNameToStore, 'public');
+        }
+
         return User::create([
             'name' => $data['name'],
             'email' => $data['email'],
-            
+            'profile_image' => $fileNameToStore ?? null,
             'password' => Hash::make($data['password']),
         ]);
     }

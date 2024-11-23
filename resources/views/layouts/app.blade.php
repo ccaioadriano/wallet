@@ -30,7 +30,7 @@
                     <li class="nav-item mb-3 text-center">
                         <div class="d-flex justify-content-center mb-2">
                             <!-- Imagem de perfil redonda -->
-                            <img src="https://picsum.photos/200/300" alt="perfil" class="rounded-circle"
+                            <img src="{{ Auth::user()->getProfileImageUrl() }}" alt="Foto de perfil de {{ Auth::user()->name }}" class="rounded-circle"
                                 style="width: 80px; height: 80px; object-fit: cover;">
                         </div>
                         <!-- Nome do usuário -->

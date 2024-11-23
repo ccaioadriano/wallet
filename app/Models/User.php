@@ -2,10 +2,10 @@
 
 namespace App\Models;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Storage;
 
 class User extends Authenticatable
 {
@@ -22,7 +22,8 @@ class User extends Authenticatable
         'email',
         'password',
         'saldo',
-        'categorias'
+        'categorias',
+        'profile_image'
     ];
 
     /**
@@ -45,8 +46,15 @@ class User extends Authenticatable
         return [
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
-            'categorias' => 'array'
+            'categorias' => 'array',
         ];
+    }
+
+    public function getProfileImageUrl()
+    {
+        return $this->profile_image != null
+        ? Storage::url('profile_images/' . $this->profile_image)
+        : asset('images/profile_default.png');
     }
 
     public function transacoes()
@@ -68,22 +76,26 @@ class User extends Authenticatable
         return 'R$ ' . number_format($this->getSaldo(), 2, ',', '.');
     }
 
-    public function addSaldo($valor) {
+    public function addSaldo($valor)
+    {
         $this->increment('saldo', $valor);
         $this->save();
 
     }
 
-    public function decrementaSaldo($valor) {
+    public function decrementaSaldo($valor)
+    {
         $this->decrement('saldo', $valor);
         $this->save();
     }
 
-    public function getTotalDespesa(){
+    public function getTotalDespesa()
+    {
         return 'R$ ' . number_format($this->transacoes()->where("tipo", "despesa")->sum('valor'), 2, ',', '.');
     }
 
-    public function getTotalReceita(){
+    public function getTotalReceita()
+    {
         return 'R$ ' . number_format($this->transacoes()->where("tipo", "receita")->sum('valor'), 2, ',', '.');
     }
 }
