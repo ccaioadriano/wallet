@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreTrasacaoRequest;
 use App\Models\Transacao;
 use Auth;
 use Illuminate\Http\Request;
@@ -18,20 +19,19 @@ class TransacaoController extends Controller
         $user = Auth::user();
         $transacoes = $user->transacoes()->orderBy(column: 'data', direction: 'asc')->get();
         $categorias = $user->categorias ?? [];
-        
-        return view(view: "transacao.index", data: compact(var_name: ["transacoes","categorias"]));
+
+        return view(view: "transacao.index", data: compact(var_name: ["transacoes", "categorias"]));
     }
 
-    public function store(Request $request)
+    public function store(StoreTrasacaoRequest $request)
     {
-        $transacao = new Transacao();
-        $transacao->data = $request->input('data');
-        $transacao->descricao = $request->input('descricao');
-        $transacao->categoria = $request->input('categoria');
-        $transacao->tipo = $request->input('tipo');
-        $transacao->valor = $request->input('valor');
-        $transacao->user_id = Auth::user()->id;
-        $transacao->save();
+        // Adiciona o ID do usuário autenticado aos dados validados
+        $validatedData = $request->validated();
+        $validatedData['user_id'] = Auth::id();
+
+        // Cria a transação no banco de dados
+        Transacao::create($validatedData);
+
         return redirect()->route('transacao-index')->with('success', 'Transação cadastrada com sucesso!');
     }
 }
