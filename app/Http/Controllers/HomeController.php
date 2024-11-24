@@ -29,18 +29,15 @@ class HomeController extends Controller
         return view('home');
     }
 
-    public function recuperaInformacaoGrafico(Request $request)
+    public function recuperaInformacaoGrafico()
     {
-
         $categoriasUsuario = collect(Auth::user()->categorias);
+        $user = Auth::user();
 
-        //buscar transações
-        $transacoesUsuario = Auth::user()->transacoes()
-            ->select('categoria', DB::raw('SUM(valor) as total'))
-            ->where('tipo', '=', 'despesa')
-            ->groupBy('categoria')->get();
-
-        $data = $transacoesUsuario->mapWithKeys(function ($transacao) use ($categoriasUsuario) {
+        //busca o total de despesas por categoria
+        $despesasUsuario = $user->getTotalDespesaByCategoria();
+        
+        $data = $despesasUsuario->mapWithKeys(function ($transacao) use ($categoriasUsuario) {
             $categoriaInfo = $categoriasUsuario->firstWhere('nome', $transacao->categoria);
             return [
                 $transacao->categoria => [

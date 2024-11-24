@@ -28,7 +28,7 @@
                             <div class="card shadow-sm">
                                 <div class="card-body text-center">
                                     <h6 class="card-title text-muted">Despesas</h6>
-                                    <h4 class="text-danger">{{Auth::user()->getTotalDespesa()}}</h4>
+                                    <h4 class="text-danger">{{Auth::user()->getTotalTransacaoByTipo('despesa' ?? 'R$ 0,00')}}</h4>
                                 </div>
                             </div>
                         </div>
@@ -36,7 +36,7 @@
                             <div class="card shadow-sm">
                                 <div class="card-body text-center">
                                     <h6 class="card-title text-muted">Ganhos</h6>
-                                    <h4 class="text-success">{{Auth::user()->getTotalReceita()}}</h4>
+                                    <h4 class="text-success">{{Auth::user()->getTotalTransacaoByTipo('receita') ?? 'R$ 0,00'}}</h4>
                                 </div>
                             </div>
                         </div>
