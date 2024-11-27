@@ -30,7 +30,9 @@ class TransacaoController extends Controller
         $validatedData['user_id'] = Auth::id();
 
         // Cria a transação no banco de dados
-        Transacao::create($validatedData);
+        if(!Transacao::create($validatedData)){
+            return redirect()->route('transacao-index')->with('erro', 'Algo deu errado ao cadastrar a transação!');
+        }
 
         return redirect()->route('transacao-index')->with('success', 'Transação cadastrada com sucesso!');
     }
