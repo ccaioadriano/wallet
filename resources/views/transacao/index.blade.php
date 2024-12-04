@@ -64,8 +64,9 @@
                     ])>{{$transacao->tipo}}</td>
                             <td>{{$transacao->getValorFormatado()}}</td>
                             <td>
-                                <button class="btn btn-sm btn-warning me-2"><i class="bi bi-pencil-square"></i></button>
-                                <button class="btn btn-sm btn-danger"><i class="bi bi-trash"></i></button>
+                                <a class="btn btn-sm btn-warning me-2" href="{{route('transacao-edit', $transacao->id)}}"><i class="bi bi-pencil-square"></i></a>
+                                <button class="btn btn-sm btn-danger" data-id="{{$transacao->id}}"><i class=" bi
+                                    bi-trash"></i></button>
                             </td>
                         </tr>
                 @endforeach
@@ -76,7 +77,7 @@
     @endif
 </div>
 
-<!-- Modal de Nova Transação -->
+<!-- Modal create transacao -->
 <div class="modal fade" id="addTransactionModal" tabindex="-1" aria-labelledby="addTransactionModalLabel"
     aria-hidden="true">
     <div class="modal-dialog">
@@ -124,4 +125,5 @@
         </div>
     </div>
 </div>
+
 @endsection

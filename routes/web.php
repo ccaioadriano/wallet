@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\TransacaoController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -16,4 +17,8 @@ Route::get('/configuracoes', [App\Http\Controllers\ConfiguracaoController::class
 
 Route::post('/adicionar-categoria', [App\Http\Controllers\ConfiguracaoController::class, 'addCategoria'])->name('adiciona-categoria');
 
+
+Route::get('/transacoes/{transacaoId}/edit', [TransacaoController::class, 'edit'])->name('transacao-edit');
+
+//rotas para js
 Route::post("recupera-informacao-grafico", [App\Http\Controllers\HomeController::class, "recuperaInformacaoGrafico"])->name('recupera-informacao-grafico');
