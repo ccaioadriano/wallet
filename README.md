@@ -76,5 +76,5 @@ A aplicação de carteira digital tem como objetivo principal auxiliar o usuári
 - [ ] Implementar testes.
 - [ ] Implementar relatórios.
 - [ ] Implementar API para comunicação do APP.
-- [] Implementar alteração de foto de perfil na aba de configurações.
+- [X] Implementar alteração de foto de perfil na aba de configurações.
 
