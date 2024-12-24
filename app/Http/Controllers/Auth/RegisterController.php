@@ -63,26 +63,28 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
+        $fileNameToStore = null;
+
         // Verifica se o arquivo foi enviado no request
         if (request()->hasFile('profile_image')) {
-            $file = request()->file('profile_image');
+            try {
+                $file = request()->file('profile_image');
+                $extension = $file->getClientOriginalExtension();
 
-            // Extrai o nome e a extensão do arquivo
-            $filenameWithExt = $file->getClientOriginalName();
-            $filename = pathinfo($filenameWithExt, PATHINFO_FILENAME);
-            $extension = $file->getClientOriginalExtension();
-
-            // Gera um nome único para o arquivo
-            $fileNameToStore = $filename . '_' . time() . '.' . $extension;
-
-            // Faz o upload para a pasta 'public/img_itens'
-            $file->storeAs('profile_images', $fileNameToStore, 'public');
+                // Gera um nome único para o arquivo
+                $fileNameToStore = 'perfil_'.$data['name'] . '_' . time() . '.' . $extension;
+                // Faz o upload para a pasta 'public/img_itens'
+                $file->storeAs('profile_images', $fileNameToStore, 'public');
+            } catch (\Exception $e) {
+                \Log::error('File upload error: ' . $e->getMessage());
+                return response()->json(['error' => 'Erro ao fazer upload da imagem de perfil.'], 500);
+            }
         }
 
         return User::create([
             'name' => $data['name'],
             'email' => $data['email'],
-            'profile_image' => $fileNameToStore ?? null,
+            'profile_image' => $fileNameToStore,
             'password' => Hash::make($data['password']),
         ]);
     }

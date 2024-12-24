@@ -14,6 +14,7 @@ Route::get('/transacoes', [App\Http\Controllers\TransacaoController::class, 'ind
 Route::post('/transacoes', [App\Http\Controllers\TransacaoController::class, 'store'])->name('transacao-store');
 
 Route::get('/configuracoes', [App\Http\Controllers\ConfiguracaoController::class, 'index'])->name('configuracao-index');
+Route::post('/configuracoes/updateProfileImage', [App\Http\Controllers\ConfiguracaoController::class, 'updateProfileImage'])->name('atualiza-foto-perfil');
 
 Route::post('/adicionar-categoria', [App\Http\Controllers\ConfiguracaoController::class, 'addCategoria'])->name('adiciona-categoria');
 
