@@ -9,7 +9,7 @@
                     <h2 class="text-center mb-4">Formulário de Edição de Transação</h2>
                 </div>
                 <div class="card-body">
-                    <form action="{{-- route('transacao.update') --}}" method="POST" class="row g-3">
+                    <form action="{{ route('transacao-update', $transacao->id) }}" method="POST" class="row g-3">
                         @csrf
                         @method('PUT')
 

@@ -19,6 +19,8 @@ Route::post('/adicionar-categoria', [App\Http\Controllers\ConfiguracaoController
 
 
 Route::get('/transacoes/{transacaoId}/edit', [TransacaoController::class, 'edit'])->name('transacao-edit');
+Route::put('/transacoes/{transacaoId}/update', [TransacaoController::class, 'update'])->name('transacao-update');
+Route::delete('/transacoes/{transacaoId}/delete', [TransacaoController::class, 'delete'])->name('transacao-delete');
 
 //rotas para js
 Route::post("recupera-informacao-grafico", [App\Http\Controllers\HomeController::class, "recuperaInformacaoGrafico"])->name('recupera-informacao-grafico');

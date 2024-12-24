@@ -41,37 +41,44 @@
 
     <!-- Tabela de transações -->
     @if (isset($transacoes) && count($transacoes) > 0)
-        <table class="table">
-            <thead>
-                <tr>
-                    <th>Data</th>
-                    <th>Descrição</th>
-                    <th>Categoria</th>
-                    <th>Tipo</th>
-                    <th>Valor</th>
-                    <th>Ações</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach ($transacoes as $transacao)
-                        <tr>
-                            <td>{{$transacao->getDataFormatada()}}</td>
-                            <td>{{$transacao->descricao}}</td>
-                            <td>{{$transacao->categoria}}</td>
-                            <td @class([
-                        'text-danger' => $transacao->tipo === 'despesa',
-                        'text-success' => $transacao->tipo === 'receita'
-                    ])>{{$transacao->tipo}}</td>
-                            <td>{{$transacao->getValorFormatado()}}</td>
-                            <td>
-                                <a class="btn btn-sm btn-warning me-2" href="{{route('transacao-edit', $transacao->id)}}"><i class="bi bi-pencil-square"></i></a>
-                                <button class="btn btn-sm btn-danger" data-id="{{$transacao->id}}"><i class=" bi
-                                    bi-trash"></i></button>
-                            </td>
-                        </tr>
-                @endforeach
-            </tbody>
-        </table>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Data</th>
+                        <th>Descrição</th>
+                        <th>Categoria</th>
+                        <th>Tipo</th>
+                        <th>Valor</th>
+                        <th>Ações</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach ($transacoes as $transacao)
+                            <tr>
+                                <td>{{$transacao->getDataFormatada()}}</td>
+                                <td>{{$transacao->descricao}}</td>
+                                <td>{{$transacao->categoria}}</td>
+                                <td @class([
+                            'text-danger' => $transacao->tipo === 'despesa',
+                            'text-success' => $transacao->tipo === 'receita'
+                        ])>{{$transacao->tipo}}</td>
+                                <td>{{$transacao->getValorFormatado()}}</td>
+                                <td>
+                                    <a class="btn btn-sm btn-warning me-2" href="{{route('transacao-edit', $transacao->id)}}"><i
+                                            class="bi bi-pencil-square"></i></a>
+                                    <button class="btn btn-sm btn-danger open-deleteTransaction" data-id="{{$transacao->id}}"
+                                        data-bs-toggle="modal" data-bs-target="#deleteTransactionModal"><i
+                                            class=" bi bi-trash"></i></button>
+                                </td>
+                            </tr>
+                    @endforeach
+                </tbody>
+            </table>
+            <div class="d-flex justify-content-between align-items-center"></div>
+            <div>
+                {{ $transacoes->links() }}
+            </div>
+        </div>
     @else
         <p>Nenhuma transação cadastrada.</p>
     @endif
@@ -125,5 +132,40 @@
         </div>
     </div>
 </div>
+
+<!-- Modal delete transacao -->
+<div class="modal fade" id="deleteTransactionModal" tabindex="-1" aria-labelledby="deleteTransactionModalLabel">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="deleteTransactionModalLabel">Excluir Transação</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
+            </div>
+            <div class="modal-body">
+                <p>Tem certeza de que deseja excluir a transação: <span id="transactionID"></span> ? </p>
+                <form id="deleteTransactionForm" action="" method="POST">
+                    @csrf
+                    @method('DELETE')
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="submit" class="btn btn-danger">Excluir</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(document).on("click", ".open-deleteTransaction", function () {
+        let transactionId = $(this).data('id');
+        $("#transactionID").html(transactionId);
+        $("#deleteTransactionForm").submit(function (event) {
+            event.preventDefault();
+            let url = "{{route('transacao-delete', ':id')}}";
+            url = url.replace(':id', transactionId);
+            $(this).attr('action', url);
+            this.submit();
+        });
+    });
+</script>
 
 @endsection
