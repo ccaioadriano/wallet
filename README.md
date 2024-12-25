@@ -71,7 +71,7 @@ A aplicação de carteira digital tem como objetivo principal auxiliar o usuári
 
 ## Pendências
 
-- [ ] Desenvolver filtros dinâmicos para a listagem de transações.
+- [X] Desenvolver filtros dinâmicos para a listagem de transações.
 - [X] Implementar CRUD das transações.
 - [ ] Implementar testes.
 - [ ] Implementar relatórios.
