@@ -14,7 +14,7 @@ Auth::routes();
 Route::get('/home', [HomeController::class, 'index'])->name('home');
 
 // Rotas de Transações
-Route::prefix('transacoes')->name('transacao-')->group(function () {
+Route::prefix('transacoes')->middleware('auth')->name('transacao-')->group(function () {
     Route::get('/', [TransacaoController::class, 'index'])->name('index');
     Route::post('/', [TransacaoController::class, 'store'])->name('store');
     Route::get('/{transacaoId}/edit', [TransacaoController::class, 'edit'])->name('edit');
@@ -23,7 +23,7 @@ Route::prefix('transacoes')->name('transacao-')->group(function () {
 });
 
 // Rotas de Configurações
-Route::prefix('configuracoes')->name('configuracao-')->group(function () {
+Route::prefix('configuracoes')->middleware('auth')->name('configuracao-')->group(function () {
     Route::get('/', [ConfiguracaoController::class, 'index'])->name('index');
     Route::post('/updateProfileImage', [ConfiguracaoController::class, 'updateProfileImage'])->name('atualiza-foto-perfil');
     Route::post('/adicionar-categoria', [ConfiguracaoController::class, 'addCategoria'])->name('adiciona-categoria');
