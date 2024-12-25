@@ -13,7 +13,7 @@
                     <span class="fw-bold">Adicionar categoria</span>
                 </div>
                 <div class="card-body">
-                    <form action="{{ route('adiciona-categoria') }}" method="POST">
+                    <form action="{{ route('configuracao-adiciona-categoria') }}" method="POST">
                         @csrf
 
 
@@ -41,7 +41,7 @@
                 </div>
 
                 <div class="card-body">
-                    <form action="{{ route('atualiza-foto-perfil') }}" method="POST" enctype="multipart/form-data">
+                    <form action="{{ route('configuracao-atualiza-foto-perfil') }}" method="POST" enctype="multipart/form-data">
                         @csrf 
                         <div class="row mb-3">
                             <input id="profile_image" type="file"
