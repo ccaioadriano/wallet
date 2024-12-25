@@ -1,7 +1,7 @@
 @extends('layouts.app') <!-- Ou o nome do seu layout principal -->
 
 @section('content')
-<div class="container my-5">
+<div class=" my-5">
     <!-- Título e botão de nova transação -->
     <div class="d-flex justify-content-between align-items-center mb-4">
         <h2 class="text-secondary">Transações</h2>
@@ -41,7 +41,7 @@
 
     <!-- Tabela de transações -->
     @if (isset($transacoes) && count($transacoes) > 0)
-            <table class="table">
+            <table class="table table-striped">
                 <thead>
                     <tr>
                         <th>Data</th>
