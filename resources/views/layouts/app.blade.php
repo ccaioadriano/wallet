@@ -49,12 +49,6 @@
                             <i class="bi bi-card-list me-2"></i> Transações
                         </a>
                     </li>
-                    <!-- Relatórios -->
-                    <li class="nav-item mb-2">
-                        <a href="#" class="nav-link text-dark d-flex align-items-center">
-                            <i class="bi bi-graph-up-arrow me-2"></i> Relatórios
-                        </a>
-                    </li>
                     <!-- Configurações -->
                     <li class="nav-item mb-2">
                         <a href="{{route('configuracao-index')}}" class="nav-link text-dark d-flex align-items-center">
