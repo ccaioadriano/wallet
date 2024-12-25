@@ -11,33 +11,34 @@
     </div>
 
     <!-- Filtros de transações -->
-    <div class="row mb-4">
+
+    <form class="row mb-4" action="{{route('transacao-index')}}" method="GET">
         <div class="col-md-3">
-            <input type="date" class="form-control" placeholder="Data">
+            <input type="date" class="form-control" placeholder="Data" name="data" value="{{request()->get('data', old('data'))}}">
         </div>
         <div class="col-md-3">
-            <select class="form-select">
-                <option value="">Categoria</option>
-                <option value="alimentacao">Alimentação</option>
-                <option value="transporte">Transporte</option>
-                <option value="lazer">Lazer</option>
+            <select id="category" class="form-select" name="categoria" >
+                <option value="">Categorias</option>
+                @foreach ($categorias as $categoria)
+                    <option value="{{$categoria['nome']}}">{{$categoria['nome']}}</option>
+                @endforeach
             </select>
         </div>
         <div class="col-md-3">
-            <select class="form-select">
+            <select class="form-select" name="tipo">
                 <option value="">Tipo</option>
                 <option value="receita">Receita</option>
                 <option value="despesa">Despesa</option>
             </select>
         </div>
         <div class="col-md-3">
-            <button class="btn btn-secondary w-100 d-flex align-items-center justify-content-center">
+            <button class="btn btn-secondary w-100 d-flex align-items-center justify-content-center" type="submit">
                 <i class="bi bi-filter me-2"></i>
                 Filtrar
             </button>
         </div>
+    </form>
 
-    </div>
 
     <!-- Tabela de transações -->
     @if (isset($transacoes) && count($transacoes) > 0)

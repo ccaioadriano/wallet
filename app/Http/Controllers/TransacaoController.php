@@ -14,12 +14,36 @@ class TransacaoController extends Controller
         $this->middleware("auth");
     }
 
-    public function index()
+    public function index(Request $request)
     {
+
+        $filter = new \stdClass();
         $user = Auth::user();
-        $transacoes = $user->transacoes()->orderBy('data', 'asc')->paginate(10);
+
+        $query = $this->aplicaFiltros($user->transacoes(), $request);
+
+
+        $transacoes = $query->paginate(10);
+
         $categorias = $user->categorias ?? [];
         return view('transacao.index', compact('transacoes', 'categorias'));
+    }
+
+    private function aplicaFiltros($query, Request $request)
+    {
+        if ($request->filled('data')) {
+            $query->where('data', $request->data);
+        }
+
+        if ($request->filled('categoria')) {
+            $query->where('categoria', $request->categoria);
+        }
+
+        if ($request->filled('tipo')) {
+            $query->where('tipo', $request->tipo);
+        }
+
+        return $query;
     }
 
     public function store(StoreTrasacaoRequest $request)
