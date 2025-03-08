@@ -65,7 +65,6 @@ A aplicação de carteira digital tem como objetivo principal auxiliar o usuári
 - O usuário deve estar autenticado para acessar o dashboard e o CRUD de transações.
 - O valor da transação deve ser positivo.
 - Cada transação deve pertencer a uma categoria pré-definida ou personalizada pelo usuário.
-- Não é permitido excluir transações relacionadas a períodos de fechamento contábil.
 
 ---
 
